@@ -1,9 +1,24 @@
 ﻿@inherits LayoutComponentBase
+@inject ProjectState State
 
-@Body
-
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
+<div class="flex min-h-screen flex-col bg-bg text-gray-100 md:h-screen md:flex-row">
+    <aside class="flex w-full shrink-0 flex-col border-b border-line bg-side p-4 md:w-60 md:border-r md:border-b-0">
+        <div class="flex items-center gap-2 px-2 pb-5 text-lg font-bold">
+            <span class="size-6 rounded-md bg-accent"></span>GroupFlow
+        </div>
+        <nav class="flex gap-1 text-gray-400 md:flex-col">
+            <NavLink class="@link" ActiveClass="bg-white/10 text-white" href="" Match="NavLinkMatch.All">Dashboard</NavLink>
+            <NavLink class="@link" ActiveClass="bg-white/10 text-white" href="tasks">Tasks</NavLink>
+            <NavLink class="@link" ActiveClass="bg-white/10 text-white" href="checklist">Checklist</NavLink>
+        </nav>
+        <div class="mt-auto hidden border-t border-line px-2 pt-4 md:block">
+            <p class="text-sm font-semibold">@State.Name</p>
+            <p class="text-xs text-muted">@State.Members.Count members</p>
+        </div>
+    </aside>
+    <main class="flex-1 overflow-y-auto p-6 md:p-10">@Body</main>
 </div>
+
+@code {
+    const string link = "flex h-9 items-center rounded-lg px-3 text-sm hover:bg-white/5";
+}

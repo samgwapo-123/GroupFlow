@@ -1,0 +1,32 @@
+@page "/checklist"
+@inject ProjectState State
+
+<h1 class="text-2xl font-semibold tracking-tight">Project checklist</h1>
+<p class="mt-1.5 text-sm text-muted">Make sure nothing important is missing before you submit.</p>
+
+<div class="@Ui.Card mt-7 max-w-3xl">
+    <div class="mb-3 flex justify-between">
+        <h2 class="font-semibold">@Done of @State.Requirements.Count completed</h2>
+        <span class="text-sm text-muted">@Percent%</span>
+    </div>
+    <div class="h-2 rounded-full bg-line">
+        <div class="h-2 rounded-full bg-accent" style="width:@(Percent)%"></div>
+    </div>
+
+    @foreach (var group in State.Requirements.GroupBy(r => r.Group))
+    {
+        <p class="mt-6 mb-1 text-sm text-muted">@group.Key</p>
+        @foreach (var r in group)
+        {
+            <label class="flex items-center gap-3 border-b border-line py-3.5 last:border-0">
+                <input type="checkbox" class="size-5 accent-accent" @bind="r.Completed" />
+                <span class="@(r.Completed ? "text-gray-500 line-through" : "")">@r.Title</span>
+            </label>
+        }
+    }
+</div>
+
+@code {
+    int Done => State.Requirements.Count(r => r.Completed);
+    int Percent => State.Requirements.Count == 0 ? 0 : Done * 100 / State.Requirements.Count;
+}
